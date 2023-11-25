@@ -1,3 +1,11 @@
+/*
+ * @Author: benchenchuang benchenchuang
+ * @Date: 2023-11-25 08:06:11
+ * @LastEditors: benchenchuang benchenchuang
+ * @LastEditTime: 2023-11-25 22:43:37
+ * @FilePath: /next-app/src/layout/header/index.tsx
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 'use client';
 import React, { useState } from 'react'
 import styles from './header.module.scss'
@@ -5,6 +13,7 @@ import {FullscreenOutlined,FullscreenExitOutlined,PoweroffOutlined,ExclamationCi
 import screenfull from 'screenfull';
 import { App } from 'antd';
 import { useRouter } from 'next/navigation'
+import Image from 'next/image';
 
 const LayoutHeader = () => {
     const router = useRouter();
@@ -33,7 +42,7 @@ const LayoutHeader = () => {
     return (
         <div className={`flex-row ${styles.header_box}`}>
             <div className={`flex-row ${styles.logo_box}`}>
-                <img src="/next.svg" alt="Vercel Logo" className={styles.logo} />
+                <Image width={120} height={40} src="/next.svg" alt="Vercel Logo" className={styles.logo} />
             </div>
             <span className={styles.welcome}>Admin 欢迎您</span>
             <div className={`flex-row ${styles.nav_box}`}></div>
@@ -47,7 +56,7 @@ const LayoutHeader = () => {
                     <PoweroffOutlined />
                 </div>
                 <div className={`flex-row ${styles.control_item}`}>
-                    <img className={styles.avatar} alt='amin' src='/avatar.jpg'/>
+                    <Image className={styles.avatar} alt='amin' width={40} height={40} src='/avatar.jpg'/>
                     <CaretDownOutlined className={styles.down} />
                 </div>
             </div>
