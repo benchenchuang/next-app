@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation'
 
 const App = () => {
@@ -11,7 +11,7 @@ const App = () => {
         } else {
             router.push('/login')
         }
-    }, [])
+    }, [router])
 }
 
 export default App
