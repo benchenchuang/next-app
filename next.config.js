@@ -1,3 +1,11 @@
+/*
+ * @Author: benchenchuang benchenchuang
+ * @Date: 2023-11-21 19:19:41
+ * @LastEditors: benchenchuang benchenchuang
+ * @LastEditTime: 2023-11-25 23:06:59
+ * @FilePath: /next-app/next.config.js
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 /** @type {import('next').NextConfig} */
 const { SERVER_ENV } = process.env
 const path = require('path')
@@ -16,7 +24,7 @@ const nextConfig = {
   swcMinify: true, //使用swc压缩
   compress: true, // 是否压缩
   assetPrefix: '/', //静态资源引用的前缀，默认不需要处理。CDN优化需要修改。
-  distDir: 'build',
+  // distDir: 'build',
   pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],
   sassOptions: {
     includePaths: ['./src'],
