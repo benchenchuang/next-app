@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation'
 
 const App = () => {
