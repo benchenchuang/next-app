@@ -1,0 +1,46 @@
+.header_box{
+    flex: 1;
+    height: 100%;
+    align-items: center;
+}
+.logo_box{
+    width: $side-width;
+    align-items: center;
+    justify-content: center;
+}
+.logo{
+    height: 100%;
+    width: 120px;
+    color: #fff;
+}
+.welcome{
+    margin: 0 10px;
+    font-size: 14px;
+    color: #fff;
+}
+.nav_box{
+    flex: 1;
+}
+.nav_side{
+    margin-right: 20px;
+    align-items: center;
+}
+.control_item{
+    margin-left: 25px;
+    font-size: 22px;
+    color: #fff;
+    cursor: pointer;
+    transition: all .5 ease;
+    &:hover{
+        opacity: .8;
+    }
+}
+.avatar{
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+}
+.down{
+    font-size: 12px;
+    margin-left: 6px;
+}
