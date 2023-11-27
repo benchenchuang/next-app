@@ -42,7 +42,7 @@ const LayoutHeader = () => {
     return (
         <div className={`flex-row ${styles.header_box}`}>
             <div className={`flex-row ${styles.logo_box}`}>
-                <Image width={120} height={40} src="/next.svg" alt="Vercel Logo" className={styles.logo} />
+                <Image width={120} height={40} src="/next.svg" priority alt="Vercel Logo" className={styles.logo} />
             </div>
             <span className={styles.welcome}>Admin 欢迎您</span>
             <div className={`flex-row ${styles.nav_box}`}></div>
