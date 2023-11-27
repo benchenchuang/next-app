@@ -9,7 +9,7 @@ interface IFileItem{
 }
 
 const Menu = () => {
-    const viewPath:string = 'src/app/views'
+    const viewPath:string = 'src/app/admin'
     const ViewPaths:string[] = [];
     // const getFileList = (dir:string) => {
     //     let files = fs.readdirSync(dir)

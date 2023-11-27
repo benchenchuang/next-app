@@ -63,9 +63,9 @@ const LayoutSide = () => {
     const handleClickMenu = (e:any) =>{
         let {key} = e;
         if(key==1){
-            navigate.push('/views/dashboard')
+            navigate.push('/admin/dashboard')
         }else if(key==2){
-            navigate.push('/views/system/menu')
+            navigate.push('/admin/system/menu')
         }
         setSelectedKeys(key)
     }

@@ -47,3 +47,8 @@
 - useAntdTable
 - useDebounceFn
 ```
+# PM2启动项目
+```
+npm i pm2 -g
+pm2 start npm --name next-app -- start #启动
+```

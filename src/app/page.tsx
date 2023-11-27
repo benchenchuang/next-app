@@ -7,7 +7,7 @@ const App = () => {
     useEffect(() => {
         let token = '11';
         if (token) {
-            router.push('/views/dashboard')
+            router.push('/admin/dashboard')
         } else {
             router.push('/login')
         }
