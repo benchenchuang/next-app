@@ -7,7 +7,7 @@ export function middleware(request:NextRequest){
             console.log('已经登录了')
         }else{
             //跳转到登录页
-            return NextResponse.redirect(new URL('/login',request.url));
+            // return NextResponse.redirect(new URL('/login',request.url));
         }
     }
 }
