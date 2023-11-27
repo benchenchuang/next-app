@@ -1,7 +1,7 @@
 export interface IResponse {
     data: any;
-    code: string;
-    msg: string
+    code: number;
+    message: string
 }
 
 export interface IQueryList {

@@ -10,7 +10,7 @@ import { connectToDB } from "@/libs/db";
 import { User } from "@/models/users";
 import { NextRequest } from "next/server";
 
-export const GET = async (req:Request | NextRequest) => {
+export const GET = async (req:Request | NextRequest,res: any) => {
     try {
         connectToDB();
         const users = await User.find();
@@ -18,11 +18,15 @@ export const GET = async (req:Request | NextRequest) => {
             data: {
                 list: users,
                 total: users.length
-            }, code: 200, message: '请求成功'
+            },
+            code: 200,
+            message: '请求成功'
         })
     } catch (err: any) {
-        console.log(err)
         // throw new Error('Failed to fetch users!');
-        return Response.json({ message: err, code: 1 })
+        return Response.json({ 
+            message: err,
+            code: 1
+        })
     }
 }
