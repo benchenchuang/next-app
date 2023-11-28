@@ -24,6 +24,8 @@ model User {
     password    String?
     role        Role     @default(USER)
     avatar      String?
+    depart      Depart   @relation(fields: [departId], references: [id])
+    departId    Int
     createTime  DateTime @default(now())
     updatedTime DateTime @default(now())
 
@@ -36,21 +38,24 @@ model Depart {
     parentId    Int      @default(-1)
     createTime  DateTime @default(now())
     updatedTime DateTime @default(now())
+    User        User[]
 
     @@map("depart")
 }
 
 model DictType {
-    id          Int      @id @map("_id")
+    id          Int        @id @map("_id")
     name        String
-    createTime  DateTime @default(now())
-    updatedTime DateTime @default(now())
+    createTime  DateTime   @default(now())
+    updatedTime DateTime   @default(now())
+    DictData    DictData[]
 
     @@map("dict_type")
 }
 
 model DictData {
     id          Int      @id @map("_id")
+    parent      DictType @relation(fields: [parentId], references: [id])
     parentId    Int
     name        String
     value       String
