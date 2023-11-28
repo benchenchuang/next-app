@@ -57,7 +57,45 @@ export const POST = async (req: NextRequest) => {
         return NextResponse.json(responseData(0, '操作失败'))
     }
 }
-
+/**
+ * 删除信息
+ * @param req 
+ */
 export const DELETE = async(req:NextRequest)=>{
-    
+    try{
+        let id = req.nextUrl.searchParams.get('id');
+        if(!id){
+            return NextResponse.json(responseData(0, '缺少删除信息Id'))
+        }
+        const res = await prisma.user.delete({
+            where:{
+                id:Number(id)
+            }
+        });
+        return NextResponse.json(responseData(200, '操作成功',res))
+    }catch(error:any){
+        return NextResponse.json(responseData(0, '操作失败'))
+    }
+}
+
+/**
+ * 更新信息
+ * @param req 
+ */
+export const PUT = async(req:NextRequest)=>{
+    try{
+        let {id,...data} = await req.json();
+        if(!id){
+            return NextResponse.json(responseData(0, '缺少更新信息Id'))
+        }
+        const res = await prisma.user.update({
+            where:{
+                id,
+            },
+            data
+        });
+        return NextResponse.json(responseData(200, '操作成功',res))
+    }catch(error:any){
+        return NextResponse.json(responseData(0, '操作失败'))
+    }
 }
