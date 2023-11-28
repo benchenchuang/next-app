@@ -16,7 +16,6 @@ export const GET = async () => {
 
 export const POST = async(req:NextRequest)=>{
     const data = await req.json();
-    console.log(data)
     await prisma.goods.create({data,});
     return NextResponse.json({
         success:true,

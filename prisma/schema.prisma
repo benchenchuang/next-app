@@ -9,13 +9,51 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Goods {
-    id          String   @id @default(uuid()) @map("_id")
-    name        String   @default("")
-    desc        String   @default("")
-    content     String   @default("")
-    createdTime DateTime @default(now()) @map("created_time")
-    updatedTime DateTime @updatedAt @map("updated_time")
+enum Role {
+    USER
+    ADMIN
+}
 
-    @@map("products")
+model User {
+    id          Int      @id @map("_id")
+    username    String   @unique
+    name        String
+    phone       String
+    email       String?
+    role        Role     @default(USER)
+    avatar      String?
+    createTime  DateTime @default(now())
+    updatedTime DateTime @default(now())
+
+    @@map("users")
+}
+
+model Depart {
+    id          Int      @id @map("_id")
+    name        String
+    parentId    Int      @default(-1)
+    createTime  DateTime @default(now())
+    updatedTime DateTime @default(now())
+
+    @@map("depart")
+}
+
+model DictType {
+    id          Int      @id @map("_id")
+    name        String
+    createTime  DateTime @default(now())
+    updatedTime DateTime @default(now())
+
+    @@map("dict_type")
+}
+
+model DictData {
+    id          Int      @id @map("_id")
+    name        String
+    value       String
+    color       String?
+    createTime  DateTime @default(now())
+    updatedTime DateTime @default(now())
+
+    @@map("dict_data")
 }
