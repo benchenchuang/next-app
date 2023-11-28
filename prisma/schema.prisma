@@ -20,6 +20,8 @@ model User {
     name        String
     phone       String
     email       String?
+    post        String   @default("一般工作人员")
+    password    String?
     role        Role     @default(USER)
     avatar      String?
     createTime  DateTime @default(now())
