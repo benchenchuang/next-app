@@ -52,3 +52,13 @@
 npm i pm2 -g
 pm2 start npm --name next-app -- start #启动
 ```
+
+# Prisma使用
+```
+- 安装prisma                     npm install prisma --save-dev
+- 初始化prisma                   npx prisma init --datasource-provider sqlite
+- prisma/schema.prisma          进行配置信息（provider\url\model)
+- 创建model之后 进行数据库生成    npx prisma db push
+- libs/db                       连接数据库
+- app/api中使用                  
+```
