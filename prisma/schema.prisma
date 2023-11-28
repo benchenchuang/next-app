@@ -51,6 +51,7 @@ model DictType {
 
 model DictData {
     id          Int      @id @map("_id")
+    parentId    Int
     name        String
     value       String
     color       String?

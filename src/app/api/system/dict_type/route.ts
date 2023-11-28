@@ -22,12 +22,12 @@ export const GET = async (req: NextRequest) => {
         let page = getParamsData(searchParams, 'page');
         let size = getParamsData(searchParams, 'size');
         let name = getParamsData(searchParams, 'name');
-
-        let query = requestData(page, size, { name })
-        let data = await prisma.user.findMany({
+        let id = getParamsData(searchParams, 'id');
+        let query = requestData(page, size, { name ,id})
+        let data = await prisma.dictType.findMany({
             ...query
         });
-        let total = await prisma.depart.count({
+        let total = await prisma.dictType.count({
             where: { name }
         })
         return NextResponse.json(responseData(200, '操作成功', { list: data, page, size, total: total }))
@@ -43,11 +43,11 @@ export const GET = async (req: NextRequest) => {
 export const POST = async (req: NextRequest) => {
     try {
         let data = await req.json();
-        let { name = '' } = data;
+        let { name = ''} = data;
         if (!name) {
             return NextResponse.json(responseData(0, '名称不能为空'))
         }
-        await prisma.depart.create(data);
+        await prisma.dictType.create(data);
         return NextResponse.json(responseData(200, '操作成功'))
     } catch (err: any) {
         return NextResponse.json(responseData(0, '操作失败'))
@@ -63,7 +63,7 @@ export const DELETE = async(req:NextRequest)=>{
         if(!id){
             return NextResponse.json(responseData(0, '缺少删除信息Id'))
         }
-        const res = await prisma.depart.delete({
+        const res = await prisma.dictType.delete({
             where:{
                 id:Number(id)
             }
@@ -84,7 +84,7 @@ export const PUT = async(req:NextRequest)=>{
         if(!id){
             return NextResponse.json(responseData(0, '缺少更新信息Id'))
         }
-        const res = await prisma.depart.update({
+        const res = await prisma.dictType.update({
             where:{
                 id,
             },

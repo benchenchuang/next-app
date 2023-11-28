@@ -65,7 +65,7 @@ pm2 start npm --name next-app -- start #启动
 ## 实际开发记录
 
 # 1 Day
-- api/system/user/route.ts中写增删改查接口
+- api/system/**/route.ts中写增删改查接口
 ```
  POST       获取参数：let data = await req.json()
  DELETE     获取参数：let id = req.nextUrl.searchParams.get('id');
