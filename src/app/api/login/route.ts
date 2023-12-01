@@ -46,7 +46,7 @@ export const POST = async (req: NextRequest) => {
             password: ''
         }),{
             headers:{
-                'Set-Cookie': `Admin-Token=${jwtToken};path='/';`
+                'Set-Cookie': `Admin-Token=${jwtToken};path="/";`
             }
         })
     } catch (err: any) {
@@ -58,10 +58,9 @@ export const POST = async (req: NextRequest) => {
  * 退出
  */
 export const PUT = async (req:NextRequest)=>{
-    await req.cookies.delete('Admin-Token');
     return NextResponse.json(responseData(200, `操作成功`),{
         headers:{
-            'Set-Cookie': `Admin-Token=;path='';`
+            'Set-Cookie': `Admin-Token="";path="/";`
         }
     })
 }
