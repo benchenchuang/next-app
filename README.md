@@ -74,10 +74,10 @@ pm2 start npm --name next-app -- start #启动
 ```
 
 # 2 Day
-- jsencrypt 进行用户密码加密
+- bcryptjs 进行用户密码加密
 ```
-yarn add jsencrypt
-/app/api/encrypt 中 加密解密方法
+1、yarn add bcryptjs
+2、/app/api/encrypt 中 加密 对比密码方法
 ```
 - midddleware.ts 中间件的使用，主要是登录判断
 - jose\zod 登录权限验证
