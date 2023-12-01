@@ -87,7 +87,7 @@ export const DELETE = async(req:NextRequest)=>{
         }
         const res = await prisma.user.delete({
             where:{
-                id:Number(id)
+                id
             }
         });
         return NextResponse.json(responseData(200, '操作成功',res))
