@@ -5,7 +5,11 @@ import { decryption } from "../encrypt";
 import * as jose from 'jose';
 
 const JWT_SECRET = 'next-app';
-
+/**
+ * 登录
+ * @param req 
+ * @returns 
+ */
 export const POST = async (req: NextRequest) => {
     try {
         let data = await req.json();
@@ -42,10 +46,22 @@ export const POST = async (req: NextRequest) => {
             password: ''
         }),{
             headers:{
-                'Set-Cookie': `Admin-Token=${jwtToken};path='/'`
+                'Set-Cookie': `Admin-Token=${jwtToken};path='/';`
             }
         })
     } catch (err: any) {
         return NextResponse.json(responseData(0, `登录失败`))
     }
+}
+
+/**
+ * 退出
+ */
+export const PUT = async (req:NextRequest)=>{
+    await req.cookies.delete('Admin-Token');
+    return NextResponse.json(responseData(200, `操作成功`),{
+        headers:{
+            'Set-Cookie': `Admin-Token=;path='';`
+        }
+    })
 }

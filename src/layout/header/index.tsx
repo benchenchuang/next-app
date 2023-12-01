@@ -14,6 +14,7 @@ import screenfull from 'screenfull';
 import { App } from 'antd';
 import { useRouter } from 'next/navigation'
 import Image from 'next/image';
+import { logout } from '@/api/login/index';
 
 const LayoutHeader = () => {
     const router = useRouter();
@@ -33,9 +34,11 @@ const LayoutHeader = () => {
             content: '确认退出登录？',
             okText: '确认',
             cancelText: '取消',
-            onOk() {
-                document.cookie ="Admin-Token=;path='/'";
-                router.push('/login')
+            onOk:async()=>{
+                try{
+                    await logout();
+                    router.push('/login')
+                }finally{}
             },
         })
     }
