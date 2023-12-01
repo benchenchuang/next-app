@@ -72,3 +72,16 @@ pm2 start npm --name next-app -- start #启动
  PUT        获取参数：let {id,...data} = await req.json();
  GET        获取参数：const { searchParams } = new URL(req.url); let page = getParamsData(searchParams, 'page');
 ```
+
+# 2 Day
+- jsencrypt 进行用户密码加密
+```
+yarn add jsencrypt
+/app/api/encrypt 中 加密解密方法
+```
+- midddleware.ts 中间件的使用，主要是登录判断
+- jose\zod 登录权限验证
+```
+1、yarn add jose zod
+2、api/login/route 处理post请求
+```

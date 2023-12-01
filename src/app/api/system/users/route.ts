@@ -1,15 +1,15 @@
 /*
- * @Author: benchenchuang benchenchuang
- * @Date: 2023-11-25 08:06:11
- * @LastEditors: benchenchuang benchenchuang
- * @LastEditTime: 2023-11-25 22:40:43
- * @FilePath: /next-app/src/app/api/system/users/route.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
+* @Author: benchenchuang benchenchuang
+* @Date: 2023-11-25 08:06:11
+* @LastEditors: benchenchuang benchenchuang
+* @LastEditTime: 2023-11-25 22:40:43
+* @FilePath: /next-app/src/app/api/system/users/route.ts
+* @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+*/
 import { prisma } from "@/libs/db";
 import { NextRequest, NextResponse } from "next/server";
 import { getParamsData, requestData, responseData } from "@/app/api/base.interface";
-
+import { encryption } from '@/app/api/encrypt';
 /**
  * 查询列表
  * @param req 
@@ -44,17 +44,29 @@ export const GET = async (req: NextRequest) => {
 export const POST = async (req: NextRequest) => {
     try {
         let data = await req.json();
-        let { name = '', phone = '' } = data;
+        let { username='',name = '', phone = '',password='123456' } = data;
+        if (!username) {
+            return NextResponse.json(responseData(0, '用户名不能为空'))
+        }
         if (!name) {
             return NextResponse.json(responseData(0, '姓名不能为空'))
         }
         if (!phone) {
             return NextResponse.json(responseData(0, '手机号不能为空'))
         }
-        await prisma.user.create(data);
+        let encryptPassword = encryption(password);
+        data.password = encryptPassword;
+        await prisma.user.create({data});
         return NextResponse.json(responseData(200, '操作成功'))
     } catch (err: any) {
-        return NextResponse.json(responseData(0, '操作失败'))
+        let message = '操作失败'
+        let target = err.meta?.target || ''
+        if(target){
+            let labelBox = target.split('_');
+            let label = labelBox[1];
+            message = `${label} 已存在`
+        }
+        return NextResponse.json(responseData(0, message))
     }
 }
 /**

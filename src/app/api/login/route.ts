@@ -5,7 +5,7 @@ export const POST = async (req: NextRequest) => {
     let { username, password } = data;
     console.log(username, password)
     //根据username查询用户，判断是否管理员以及密码校验是否正确
-
+    
     //根据用户信息生成token返回
     
     return NextResponse.json(
