@@ -2,7 +2,7 @@
  * @Author: benchenchuang benchenchuang
  * @Date: 2023-11-25 08:06:11
  * @LastEditors: benchenchuang benchenchuang
- * @LastEditTime: 2023-12-01 19:58:32
+ * @LastEditTime: 2023-12-01 20:09:14
  * @FilePath: /next-app/src/app/views/system/users/page.tsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -19,7 +19,7 @@ const Users = () => {
     const searchList = (params: any,formData:IForm): Promise<IUserObject> => {
         return new Promise(async (resolve, reject) => {
             try {
-                let {pageSize:page,current:size} = params;
+                let {pageSize:size,current:page} = params;
                 let form = {
                     page,
                     size,

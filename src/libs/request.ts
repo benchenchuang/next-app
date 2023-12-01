@@ -16,6 +16,7 @@ const service: AxiosInstance = axios.create({
 service.interceptors.request.use((config: any) => {
     config.headers = {
         "Content-Type": "application/json",
+        "token":''
     }
     return config;
 }, (error: any) => {
