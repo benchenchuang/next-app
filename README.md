@@ -80,8 +80,8 @@ pm2 start npm --name next-app -- start #启动
 2、/app/api/encrypt 中 加密 对比密码方法
 ```
 - midddleware.ts 中间件的使用，主要是登录判断
-- jose\zod 登录权限验证
+- jose 登录权限验证
 ```
-1、yarn add jose zod
+1、yarn add jose
 2、api/login/route 处理post请求
 ```
