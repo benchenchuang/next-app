@@ -46,7 +46,7 @@ export const POST = async (req: NextRequest) => {
             password: ''
         }),{
             headers:{
-                'Set-Cookie': `Admin-Token=${jwtToken};path="/";`
+                'Set-Cookie': `Admin-Token=${jwtToken}; sameSite=strict; httpOnly=true; maxAge=60*60*24`
             }
         })
     } catch (err: any) {
