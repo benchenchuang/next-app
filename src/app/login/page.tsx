@@ -5,13 +5,15 @@ import { Button, Form, FormInstance, Input } from 'antd';
 import { FieldType } from './login.types';
 import React from 'react';
 import { UserOutlined,LockOutlined } from '@ant-design/icons';
+import { login } from '@/api/login/index';
 
 const Login = () => {
     const formRef = React.useRef<FormInstance>(null);
     
-    const onFinish = (values: any) => {
+    const onFinish = async (values: any) => {
         let {username,password} = values;
-        console.log(username,password)
+        let res = await login({username,password})
+        console.log(res)
     };
 
     return (
