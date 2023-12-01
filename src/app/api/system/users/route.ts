@@ -2,7 +2,7 @@
 * @Author: benchenchuang benchenchuang
 * @Date: 2023-11-25 08:06:11
  * @LastEditors: benchenchuang benchenchuang
- * @LastEditTime: 2023-12-01 19:53:56
+ * @LastEditTime: 2023-12-01 20:03:09
 * @FilePath: /next-app/src/app/api/system/users/route.ts
 * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 */
@@ -19,8 +19,8 @@ import { encryption } from '@/app/api/encrypt';
 export const GET = async (req: NextRequest) => {
     try {
         const { searchParams } = new URL(req.url);
-        let page = getParamsData(searchParams, 'page');
-        let size = getParamsData(searchParams, 'size');
+        let page = getParamsData(searchParams, 'page') || 1;
+        let size = getParamsData(searchParams, 'size') || 10;
         let name = getParamsData(searchParams, 'name');
         let phone = getParamsData(searchParams, 'phone');
         let where:any = {};
