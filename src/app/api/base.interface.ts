@@ -21,7 +21,7 @@ export const responseData = (code: number = 200, message: string, data = {}): IR
  * @param params 其他查询参数
  * @returns 
  */
-export const requestData = (page: number = 1, size: number = 10, params: IQueryList) => {
+export const requestData = (page: number = 1, size: number = 10, params?: IQueryList) => {
     let skip = (page - 1) * size;
     return {
         skip, //从skip开始（不包含skip)

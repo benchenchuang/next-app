@@ -23,16 +23,22 @@ export const GET = async (req: NextRequest) => {
         let size = getParamsData(searchParams, 'size');
         let name = getParamsData(searchParams, 'name');
         let phone = getParamsData(searchParams, 'phone');
-
-        let query = requestData(page, size, { name, phone })
+        let where:any = {};
+        if(name){
+            where.name = name;
+        }
+        if(phone){
+            where.phone = phone;
+        }
+        let query = requestData(page, Number(size), where)
+        console.log(query)
         let data = await prisma.user.findMany({
             ...query
         });
-        let total = await prisma.user.count({
-            where: { name, phone }
-        })
+        let total = await prisma.user.count(where)
         return NextResponse.json(responseData(200, '操作成功', { list: data, page, size, total: total }))
     } catch (err: any) {
+        console.log(err)
         return NextResponse.json(responseData(0, '操作失败'))
     }
 }
