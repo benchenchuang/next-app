@@ -34,6 +34,7 @@ const LayoutHeader = () => {
             okText: '确认',
             cancelText: '取消',
             onOk() {
+                document.cookie = '';
                 router.push('/login')
             },
         })

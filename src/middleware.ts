@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
+import { getCache } from "./libs/session";
 
 export function middleware(request:NextRequest){
     let pathname:string = request.nextUrl.pathname;
-    let token = request.cookies.get('admin-token');
+    let token = request.cookies.get('Admin-Token')?.value || '';
     if(pathname.startsWith('/admin') || pathname=='/'){
         //访问的是管理后台 判断是否登录
         if(token){

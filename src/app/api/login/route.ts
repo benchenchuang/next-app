@@ -40,7 +40,11 @@ export const POST = async (req: NextRequest) => {
             token: jwtToken,
             ...userInfo,
             password: ''
-        }))
+        }),{
+            headers:{
+                'Set-Cookie': `Admin-Token=${jwtToken};path='/'`
+            }
+        })
     } catch (err: any) {
         return NextResponse.json(responseData(0, `登录失败`))
     }

@@ -13,40 +13,20 @@ service.interceptors.request.use((config: any) => {
         "Content-Type": "application/json",
         "token": token
     }
-    // if (config.headers.isLoading !== false) {
-    //     store.dispatch({
-    //         type: GlobalTypes.SHOW_LOADING
-    //     })
-    // }
     return config;
 }, (error: any) => {
-    // if (error.config.headers.isLoading !== false) {
-    //     store.dispatch({
-    //         type: GlobalTypes.HIDE_LOADING
-    //     })
-    // }
     return Promise.reject(error);
 });
 //响应处理
 service.interceptors.response.use((response: AxiosResponse) => {
-    // if (response.config.headers.isLoading !== false) {
-    //     store.dispatch({
-    //         type: GlobalTypes.HIDE_LOADING
-    //     })
-    // }
     let { code = 200 } = response.data;
     if (code == 200) {
         return Promise.resolve(response.data);
     } else {
-        message.error(response.data.msg || '操作错误');
-        return Promise.reject(response);
+        message.error(response.data.message || '操作错误');
+        return Promise.reject(response.data);
     }
 }, (error: any) => {
-    // if (error.config.headers.isLoading !== false) {
-    //     store.dispatch({
-    //         type: GlobalTypes.HIDE_LOADING
-    //     })
-    // }
     if (error && error.response) {
         switch (error.response.status) {
             case 400:
