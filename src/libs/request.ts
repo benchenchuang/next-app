@@ -7,7 +7,7 @@ const service: AxiosInstance = axios.create({
 });
 // 请求处理
 service.interceptors.request.use((config: any) => {
-    let token = '';
+    let token = '11122223333';
     // let token = getCache('token') ||'';
     config.headers = {
         "Content-Type": "application/json",
