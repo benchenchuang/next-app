@@ -1,17 +1,21 @@
+/*
+ * @Author: benchenchuang benchenchuang
+ * @Date: 2023-12-01 19:15:44
+ * @LastEditors: benchenchuang benchenchuang
+ * @LastEditTime: 2023-12-01 19:51:03
+ * @FilePath: /next-app/src/libs/request.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse } from "axios";
 import { message } from 'antd'
-import { getCache } from "./session";
 const service: AxiosInstance = axios.create({
     baseURL: '',
     timeout: 60 * 1000
 });
 // 请求处理
 service.interceptors.request.use((config: any) => {
-    let token = '';
-    // let token = getCache('token') ||'';
     config.headers = {
         "Content-Type": "application/json",
-        "token": token
     }
     return config;
 }, (error: any) => {
