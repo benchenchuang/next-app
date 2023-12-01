@@ -31,14 +31,12 @@ export const GET = async (req: NextRequest) => {
             where.phone = phone;
         }
         let query = requestData(page, Number(size), where)
-        console.log(query)
         let data = await prisma.user.findMany({
             ...query
         });
         let total = await prisma.user.count(where)
         return NextResponse.json(responseData(200, '操作成功', { list: data, page, size, total: total }))
     } catch (err: any) {
-        console.log(err)
         return NextResponse.json(responseData(0, '操作失败'))
     }
 }
@@ -106,6 +104,7 @@ export const PUT = async(req:NextRequest)=>{
         if(!id){
             return NextResponse.json(responseData(0, '缺少更新信息Id'))
         }
+        delete data.password;
         const res = await prisma.user.update({
             where:{
                 id,
