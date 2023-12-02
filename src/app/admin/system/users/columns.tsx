@@ -24,17 +24,15 @@ export const columns = (): ColumnsType<object> => {
             key: "email",
         },
         {
-            title: "是否管理员",
-            dataIndex: "isAdmin",
-            render(value, record, index) {
-                return value?<Tag color="#4062d8">是</Tag>:<Tag>否</Tag>
-            },
+            title: "部门",
+            dataIndex: "depart",
+            key: "depart",
         },
         {
-            title: "是否激活",
-            dataIndex: "isActive",
+            title: "角色",
+            dataIndex: "role",
             render(value, record, index) {
-                return value?<Tag color="#4062d8">是</Tag>:<Tag>否</Tag>
+                return value=='ADMIN'?<Tag color="#4062d8">管理员</Tag>:<Tag>用户</Tag>
             },
         },
         {
