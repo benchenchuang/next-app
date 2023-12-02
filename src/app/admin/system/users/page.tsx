@@ -2,18 +2,16 @@
  * @Author: benchenchuang benchenchuang
  * @Date: 2023-11-25 08:06:11
  * @LastEditors: benchenchuang benchenchuang
- * @LastEditTime: 2023-11-25 08:14:16
+ * @LastEditTime: 2023-12-01 20:09:14
  * @FilePath: /next-app/src/app/views/system/users/page.tsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 'use client';
-import { Button, Card, Form, Input, Result, Table } from 'antd';
+import { Button, Card, Form, Input, Table } from 'antd';
 import { columns } from './columns';
-import { remoteUserList } from '@/api/system/users';
-import { useAntdTable, useDebounceFn, useRequest } from 'ahooks';
+import { remoteList } from '@/api/system/users';
+import { useAntdTable, useDebounceFn } from 'ahooks';
 import { IForm, IUserObject,IUserInfo } from './users.type';
-
-
 
 const Users = () => {
     const [form] = Form.useForm();
@@ -21,11 +19,17 @@ const Users = () => {
     const searchList = (params: any,formData:IForm): Promise<IUserObject> => {
         return new Promise(async (resolve, reject) => {
             try {
-                let res = await remoteUserList({...params,...formData});
-                let { list } = res.data;
+                let {pageSize:size,current:page} = params;
+                let form = {
+                    page,
+                    size,
+                    ...formData
+                }
+                let res = await remoteList(form);
+                let { list,total } = res.data;
                 let result:IUserObject = {
-                    list: list,
-                    total: list.length
+                    list,
+                    total
                 }
                 resolve(result)
             } catch (err) {
@@ -43,7 +47,7 @@ const Users = () => {
     return (
         <Card style={{ margin: '10px 0' }}>
             <Form form={form} onValuesChange={autoSearch} layout="inline">
-                <Form.Item label="姓名" name="username">
+                <Form.Item label="姓名" name="name">
                     <Input placeholder='请输入姓名' />
                 </Form.Item>
                 <Form.Item label="手机" name="phone">

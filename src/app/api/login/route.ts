@@ -1,3 +1,11 @@
+/*
+ * @Author: benchenchuang benchenchuang
+ * @Date: 2023-12-01 19:15:44
+ * @LastEditors: benchenchuang benchenchuang
+ * @LastEditTime: 2023-12-01 19:28:27
+ * @FilePath: /next-app/src/app/api/login/route.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import { prisma } from "@/libs/db";
 import { NextRequest, NextResponse } from "next/server";
 import { responseData } from "@/app/api/base.interface";
@@ -46,9 +54,13 @@ export const POST = async (req: NextRequest) => {
             password: ''
         }),{
             headers:{
+<<<<<<< HEAD
                 'Authorization':jwtToken,
                 'Set-Cookie': `Admin-Token=${jwtToken}`,
                 'path':'/'
+=======
+                'Set-Cookie': `Admin-Token=${jwtToken};path=/;`
+>>>>>>> b1fffc41cf7e7e369f07363138b33a06bad9727f
             }
         })
     } catch (err: any) {
@@ -62,7 +74,7 @@ export const POST = async (req: NextRequest) => {
 export const PUT = async (req:NextRequest)=>{
     return NextResponse.json(responseData(200, `操作成功`),{
         headers:{
-            'Set-Cookie': `Admin-Token="";path="/";`
+            'Set-Cookie': `Admin-Token=;path=/;`
         }
     })
 }

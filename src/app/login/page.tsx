@@ -1,3 +1,11 @@
+/*
+ * @Author: benchenchuang benchenchuang
+ * @Date: 2023-12-01 19:15:44
+ * @LastEditors: benchenchuang benchenchuang
+ * @LastEditTime: 2023-12-01 19:55:57
+ * @FilePath: /next-app/src/app/login/page.tsx
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 'use client'
 import { siteConfig } from '@/config/site';
 import styles from './login.module.scss';
@@ -5,7 +13,7 @@ import { App, Button, Form, FormInstance, Input, Spin } from 'antd';
 import { FieldType } from './login.types';
 import React, { useState } from 'react';
 import { UserOutlined,LockOutlined } from '@ant-design/icons';
-import { login } from '@/api/login/index';
+import { login } from '@/api/login';
 import { setCache } from '@/libs/session';
 import { useRouter } from 'next/navigation';
 
