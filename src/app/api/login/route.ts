@@ -10,9 +10,7 @@ import { prisma } from "@/libs/db";
 import { NextRequest, NextResponse } from "next/server";
 import { responseData } from "@/app/api/base.interface";
 import { decryption } from "../encrypt";
-import * as jose from 'jose';
-
-const JWT_SECRET = 'next-app';
+import { signJWT } from "../jwt";
 /**
  * 登录
  * @param req 
@@ -35,19 +33,8 @@ export const POST = async (req: NextRequest) => {
         if (!isPermission) {
             return NextResponse.json(responseData(0, `登录密码错误`))
         }
-        let { id, name, phone } = userInfo
         //根据用户信息生成token返回
-        let jwtToken = await new jose.SignJWT({
-            id,
-            username,
-            name,
-            phone
-        })
-            .setProtectedHeader({ alg: 'HS256' })
-            .setIssuedAt()
-            .setExpirationTime('2h')
-            .sign(new TextEncoder()
-                .encode(JWT_SECRET))
+        let jwtToken = signJWT(userInfo)
         return NextResponse.json(responseData(200, '登录成功', {
             token: jwtToken,
             ...userInfo,

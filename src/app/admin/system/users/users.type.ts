@@ -4,13 +4,14 @@ export interface IUserObject {
 
 }
 export interface IUserInfo {
+    id:string
     username: string
-    email: string
+    name: string
+    email?: string
     phone: string
     password: string
     avatar?: string
-    isAdmin: boolean
-    isActive: boolean
+    role: string
     address?: string
 }
 export interface IForm {
