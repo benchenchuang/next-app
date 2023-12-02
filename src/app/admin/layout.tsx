@@ -16,7 +16,8 @@ import BreadCrumb from '@/layout/sideBar/bread'
 export default function MainLayout({ children }: { children: ReactNode}) {
     return (
         <>
-            <Suspense fallback={<Spinning/>}>
+            {/* <Suspense fallback={<Spinning/>}> */}
+            <Suspense>
                 <div className={`flex-column ${styles.body}`}>
                     <div className={styles.header}>
                         <LayoutHeader />
