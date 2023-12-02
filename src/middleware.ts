@@ -3,7 +3,7 @@ import { verifyToken } from "@/app/api/jwt";
 
 export async function middleware(request:NextRequest){
     let pathname:string = request.nextUrl.pathname;
-    let token = request.cookies.get('Admin-Token')?.value || '';
+    let token = await request.cookies.get('Admin-Token')?.value || '';
     if(pathname.startsWith('/admin') || pathname=='/'){
         //访问的是管理后台 判断是否登录
         if(token){
@@ -13,9 +13,9 @@ export async function middleware(request:NextRequest){
                 let expTime = Number(exp + '000')
                 let nowTime = Date.now();
                 if(nowTime >= expTime){
-                    console.log('登录超时')
                     return NextResponse.redirect(new URL('/login',request.url));
-                }else if(pathname=='/'){
+                }
+                if(pathname=='/'){
                     return NextResponse.redirect(new URL('/admin/dashboard',request.url));
                 }
             }catch(err){

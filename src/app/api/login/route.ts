@@ -34,7 +34,7 @@ export const POST = async (req: NextRequest) => {
             return NextResponse.json(responseData(0, `登录密码错误`))
         }
         //根据用户信息生成token返回
-        let jwtToken = signJWT(userInfo)
+        let jwtToken = await signJWT(userInfo);
         return NextResponse.json(responseData(200, '登录成功', {
             token: jwtToken,
             ...userInfo,
