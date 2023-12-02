@@ -11,7 +11,7 @@ import {
     PieChartOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
+import { Menu, Spin } from 'antd';
 import styles from './side.module.scss';
 import { useRouter,usePathname } from 'next/navigation';
 type MenuItem = Required<MenuProps>['items'][number];
@@ -71,7 +71,7 @@ const LayoutSide = () => {
     return (
         <>
             {
-                selectedKeys && <Menu
+                selectedKeys?<Menu
                     defaultSelectedKeys={[selectedKeys]}
                     defaultOpenKeys={openKeys}
                     mode="inline"
@@ -79,7 +79,7 @@ const LayoutSide = () => {
                     inlineCollapsed={collapsed}
                     items={items}
                     onClick={handleClickMenu}
-                />
+                />:(<div className={`flex-column ${styles.spin}`}><Spin></Spin></div>)
             }
         </>
     )
