@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     AppstoreOutlined,
     ContainerOutlined,
@@ -13,7 +13,7 @@ import {
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import styles from './side.module.scss';
-import { useRouter } from 'next/navigation';
+import { useRouter,usePathname } from 'next/navigation';
 type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
@@ -42,31 +42,45 @@ const items: MenuItem[] = [
 ];
 
 const LayoutSide = () => {
-    let navigate = useRouter()
-    const [collapsed, setCollapsed] = useState(false);
-    const [selectedKeys, setSelectedKeys] = useState('1');
+    let navigate = useRouter();
+    let pathname = usePathname();
 
-    const toggleCollapsed = () => {
-        setCollapsed(!collapsed);
-    };
+    const [collapsed, setCollapsed] = useState<boolean>(false);
+    const [selectedKeys, setSelectedKeys] = useState<string>('');
+    const [openKeys, setOpenKeys] = useState<string[]>([]);
 
+    //点击菜单
     const handleClickMenu = (e: any) => {
         let { key } = e;
         navigate.push('/admin/'+key)
         setSelectedKeys(key)
     }
+    //处理初始化菜单显示
+    useEffect(()=>{
+        let key = pathname.replace('/admin/','');
+        let keys = key.split('/');
+        if(keys.length>1){
+            keys.pop()
+            setOpenKeys(keys)
+        }else{
+            setOpenKeys([key])
+        }
+        setSelectedKeys(key)
+    },[])
 
     return (
         <>
-            <Menu
-                defaultSelectedKeys={[selectedKeys]}
-                defaultOpenKeys={['sub1']}
-                mode="inline"
-                theme="dark"
-                inlineCollapsed={collapsed}
-                items={items}
-                onClick={handleClickMenu}
-            />
+            {
+                selectedKeys && <Menu
+                    defaultSelectedKeys={[selectedKeys]}
+                    defaultOpenKeys={openKeys}
+                    mode="inline"
+                    theme="dark"
+                    inlineCollapsed={collapsed}
+                    items={items}
+                    onClick={handleClickMenu}
+                />
+            }
         </>
     )
 }

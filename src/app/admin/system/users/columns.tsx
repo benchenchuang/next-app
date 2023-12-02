@@ -3,15 +3,20 @@ import { ColumnsType } from 'antd/es/table';
 
 export const columns = (): ColumnsType<object> => {
     return [
-        {
-            title: "头像",
-            dataIndex: "avatar",
-            render: (text: any, row: any, index: number) =><Image width={80} alt={row.username} src={text}/>
-        },
+        // {
+        //     title: "头像",
+        //     dataIndex: "avatar",
+        //     render: (text: any, row: any, index: number) =><Image width={80} alt={row.username} src={text}/>
+        // },
         {
             title: "用户名",
             dataIndex: "username",
             key: "username",
+        },
+        {
+            title: "姓名",
+            dataIndex: "name",
+            key: "name",
         },
         {
             title: "邮箱",

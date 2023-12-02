@@ -67,7 +67,7 @@ const Users = () => {
             </Form>
             <Table
                 style={{marginTop:'20px'}}
-                rowKey='_id'
+                rowKey='id'
                 bordered
                 columns={columns()}
                 {...tableProps} />
