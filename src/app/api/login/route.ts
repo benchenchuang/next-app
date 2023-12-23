@@ -11,6 +11,36 @@ import { NextRequest, NextResponse } from "next/server";
 import { responseData } from "@/app/api/base.interface";
 import { decryption } from "../encrypt";
 import { signJWT } from "../jwt";
+
+/**
+ * 获取登录用户权限
+ * @param roleId  角色Id
+ * @param parentId 
+ * @returns 
+ */
+export const getUserPermission = async (roleId: string, parentId: string) => {
+    let where: any = { parentId, roleId };
+    const node: any = await prisma.permission.findMany({
+        where,
+        orderBy: {
+            'orderNum': 'asc'
+        },
+        include: {
+            menu: true
+        }
+    });
+    if (!node || node.length == 0) {
+        return null;
+    }
+    if (node.length) {
+        for (const child of node) {
+            const childNodes = await getUserPermission(roleId, child.menuId);
+            child.children = childNodes;
+        }
+    }
+    return node;
+}
+
 /**
  * 登录
  * @param req 
@@ -65,31 +95,3 @@ export const PUT = async (req: NextRequest) => {
     })
 }
 
-/**
- * 获取登录用户权限
- * @param roleId  角色Id
- * @param parentId 
- * @returns 
- */
-export const getUserPermission = async (roleId: string, parentId: string) => {
-    let where: any = { parentId, roleId };
-    const node: any = await prisma.permission.findMany({
-        where,
-        orderBy: {
-            'orderNum': 'asc'
-        },
-        include: {
-            menu: true
-        }
-    });
-    if (!node || node.length == 0) {
-        return null;
-    }
-    if (node.length) {
-        for (const child of node) {
-            const childNodes = await getUserPermission(roleId, child.menuId);
-            child.children = childNodes;
-        }
-    }
-    return node;
-}
