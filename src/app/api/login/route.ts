@@ -2,7 +2,7 @@
  * @Author: benchenchuang benchenchuang
  * @Date: 2023-12-01 19:15:44
  * @LastEditors: benchenchuang benchenchuang
- * @LastEditTime: 2023-12-23 17:28:08
+ * @LastEditTime: 2023-12-23 17:32:05
  * @FilePath: /next-app/src/app/api/login/route.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -73,7 +73,7 @@ export const PUT = async (req: NextRequest) => {
  * @param parentId 
  * @returns 
  */
-export const getUserPermission = async (roleId: string, parentId: string):Promise<any> => {
+const getUserPermission = async (roleId: string, parentId: string):Promise<any> => {
     let where: any = { parentId, roleId };
     const node: any = await prisma.permission.findMany({
         where,

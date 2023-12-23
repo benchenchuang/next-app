@@ -160,6 +160,7 @@ const Dictionary = () => {
                     }}
                     rowKey='id'
                     bordered
+                    scroll={{ x: 600 }}
                     columns={columns(updateItem, deleteItem)}
                     {...tableProps} />
                 {
@@ -176,6 +177,7 @@ const Dictionary = () => {
                     style={{ marginTop: '20px' }}
                     rowKey='id'
                     bordered
+                    scroll={{ x: 600 }}
                     loading={loading}
                     columns={dataColumn(updateDataItem, deleteDataItem)}
                     dataSource={dictTableList} />

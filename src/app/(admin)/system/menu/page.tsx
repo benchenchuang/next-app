@@ -98,6 +98,7 @@ const Menu = () => {
                 style={{ marginTop: '20px' }}
                 rowKey='id'
                 bordered
+                scroll={{ x: 1000 }}
                 columns={columns(updateItem, deleteItem,dictData)}
                 {...tableProps} />
             {

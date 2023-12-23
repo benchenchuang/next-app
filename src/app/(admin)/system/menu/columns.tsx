@@ -1,3 +1,11 @@
+/*
+ * @Author: benchenchuang benchenchuang
+ * @Date: 2023-12-18 13:46:00
+ * @LastEditors: benchenchuang benchenchuang
+ * @LastEditTime: 2023-12-23 17:34:37
+ * @FilePath: /next-app/src/app/(admin)/system/menu/columns.tsx
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import { Button, Flex } from "antd"
 import { ColumnsType } from "antd/lib/table"
 import IconSvg from '@/components/IconSvg';
@@ -67,8 +75,8 @@ export const columns = (updateItem:Function,deleteItem:Function,dictData:DictDat
             dataIndex: "action",
             width:180,
             render:(value, record, index)=><Flex wrap="wrap" gap="small">
-                <Button type='primary' onClick={()=>updateItem(record)}>编辑</Button>
-                <Button danger onClick={()=>deleteItem(record)}>删除</Button>
+                <Button size="small" type='primary' onClick={()=>updateItem(record)}>编辑</Button>
+                <Button size="small" danger onClick={()=>deleteItem(record)}>删除</Button>
             </Flex>
         },
     ]
