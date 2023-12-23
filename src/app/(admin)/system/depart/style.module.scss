@@ -1,0 +1,19 @@
+.wrapper {
+  width: 100%;
+}
+.sideBox {
+  width: 320px;
+}
+.mainBox {
+  flex: 1;
+}
+.tree_title_box{
+    display: flex;
+    align-items: center;
+    padding: 5px 3px;
+    flex: 1;
+    width: 0;
+}
+.tree_title{
+    font-size: 14px;
+}

@@ -1,0 +1,11 @@
+.wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.cardBox{
+    flex: 1;
+}
+.active{
+    background-color: rgba($color: $theme, $alpha: .3)!important;
+}

@@ -1,11 +1,3 @@
-/*
-* @Author: benchenchuang benchenchuang
-* @Date: 2023-11-25 08:06:11
- * @LastEditors: benchenchuang benchenchuang
- * @LastEditTime: 2023-12-01 20:31:11
-* @FilePath: /next-app/src/app/api/system/users/route.ts
-* @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
-*/
 import { prisma } from "@/libs/db";
 import { NextRequest, NextResponse } from "next/server";
 import { getParamsData, requestData, responseData } from "@/app/api/base.interface";
@@ -23,31 +15,63 @@ export const GET = async (req: NextRequest) => {
         let size = Number(getParamsData(searchParams, 'size')) || 10;
         let name = getParamsData(searchParams, 'name');
         let phone = getParamsData(searchParams, 'phone');
-        let where:any = {};
-        if(name){
+        let roleId = getParamsData(searchParams, 'roleId');
+        let departId = getParamsData(searchParams, 'departId');
+        let where: any = {};
+        if (name) {
             where.name = name;
         }
-        if(phone){
+        if (phone) {
             where.phone = phone;
         }
-        let query = requestData(page, Number(size), where)
+        if (roleId) {
+            where.roleId = roleId;
+        }
+        if (departId) {
+            where.departId = departId;
+        }
+        let query = requestData(page, size, where)
         let data = await prisma.user.findMany({
             ...query,
             select:{
                 id:true,
                 name:true,
                 username:true,
-                role:true,
+                roleId:true,
                 post:true,
                 avatar:true,
-                depart:true,
+                departId:true,
                 email:true,
                 createTime:true,
-            }
+                phone:true,
+                depart: {
+                    select: {
+                        name: true
+                    },
+                },
+                role: {
+                    select: {
+                        name: true
+                    }
+                }
+            },
+            // include: {
+            //     depart: {
+            //         select: {
+            //             name: true
+            //         },
+            //     },
+            //     role: {
+            //         select: {
+            //             name: true
+            //         }
+            //     }
+            // },
         });
-        let total = await prisma.user.count(where)
+        let total = await prisma.user.count({ where })
         return NextResponse.json(responseData(200, '操作成功', { list: data, page, size, total: total }))
     } catch (err: any) {
+        console.log(err)
         return NextResponse.json(responseData(0, '操作失败'))
     }
 }
@@ -59,7 +83,7 @@ export const GET = async (req: NextRequest) => {
 export const POST = async (req: NextRequest) => {
     try {
         let data = await req.json();
-        let { username='',name = '', phone = '',password='123456' } = data;
+        let { username = '', name = '', phone = '', password = '123456' } = data;
         if (!username) {
             return NextResponse.json(responseData(0, '用户名不能为空'))
         }
@@ -71,12 +95,12 @@ export const POST = async (req: NextRequest) => {
         }
         let encryptPassword = encryption(password);
         data.password = encryptPassword;
-        await prisma.user.create({data});
+        await prisma.user.create({ data });
         return NextResponse.json(responseData(200, '操作成功'))
     } catch (err: any) {
         let message = '操作失败'
         let target = err.meta?.target || ''
-        if(target){
+        if (target) {
             let labelBox = target.split('_');
             let label = labelBox[1];
             message = `${label} 已存在`
@@ -88,19 +112,22 @@ export const POST = async (req: NextRequest) => {
  * 删除信息
  * @param req 
  */
-export const DELETE = async(req:NextRequest)=>{
-    try{
-        let id = req.nextUrl.searchParams.get('id');
-        if(!id){
+export const DELETE = async (req: NextRequest) => {
+    try {
+        const { searchParams } = new URL(req.url);
+        let ids = searchParams.getAll('ids[]');
+        if (!ids || ids.length == 0) {
             return NextResponse.json(responseData(0, '缺少删除信息Id'))
         }
-        const res = await prisma.user.delete({
-            where:{
-                id
+        await prisma.user.deleteMany({
+            where: {
+                id: {
+                    in: ids
+                }
             }
         });
-        return NextResponse.json(responseData(200, '操作成功',res))
-    }catch(error:any){
+        return NextResponse.json(responseData(200, '操作成功'))
+    } catch (error: any) {
         return NextResponse.json(responseData(0, '操作失败'))
     }
 }
@@ -109,21 +136,23 @@ export const DELETE = async(req:NextRequest)=>{
  * 更新信息
  * @param req 
  */
-export const PUT = async(req:NextRequest)=>{
-    try{
-        let {id,...data} = await req.json();
-        if(!id){
+export const PUT = async (req: NextRequest) => {
+    try {
+        let { id, ...data } = await req.json();
+        if (!id) {
             return NextResponse.json(responseData(0, '缺少更新信息Id'))
         }
         delete data.password;
+        delete data.role;
+        delete data.depart;
         const res = await prisma.user.update({
-            where:{
+            where: {
                 id,
             },
             data
         });
-        return NextResponse.json(responseData(200, '操作成功',res))
-    }catch(error:any){
+        return NextResponse.json(responseData(200, '操作成功', res))
+    } catch (error: any) {
         return NextResponse.json(responseData(0, '操作失败'))
     }
 }

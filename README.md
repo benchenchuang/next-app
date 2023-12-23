@@ -66,7 +66,7 @@ pm2 start npm --name next-app -- start #启动
 - 安装prisma                     npm install prisma --save-dev
 - 初始化prisma                   npx prisma init --datasource-provider sqlite
 - prisma/schema.prisma          进行配置信息（provider\url\model)
-- 创建model之后 完成映射    npx prisma db push
+- 创建model之后 完成映射          npx prisma db push
 - libs/db                       连接数据库
 - app/api中使用                  
 ```
@@ -95,3 +95,31 @@ pm2 start npm --name next-app -- start #启动
 3、设置cookie中包含token,用于中间件的判断
 4、中间件判断token是否过期
 ```
+
+# 3 Day
+- svg icon处理
+```
+1、yarn add @svgr/webpack
+2、更新next.config.ts中的webpack配置
+3、编写动态组件导入IconSvg
+4、组件引入使用 如：<IconSvg name="dashboard"/>
+```
+- NOT 排除重复项查询
+```
+where: {
+    name,
+    NOT: {
+        id
+    }
+}
+```
+- 无限循环查询子菜单
+- 关联表单尝试使用
+```
+include: {
+    account: true
+}
+```
+
+# 4 Day
+

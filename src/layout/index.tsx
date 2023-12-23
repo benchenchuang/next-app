@@ -26,7 +26,7 @@ export default function MainLayout({ children }: { children: ReactNode}) {
                             <LayoutSide />
                         </div>
                         <div className={`flex-column ${styles.content}`}>
-                            <BreadCrumb />
+                            {/* <BreadCrumb /> */}
                             <div className={styles.wrapper}>
                                 {children}
                             </div>

@@ -29,6 +29,27 @@ const nextConfig = {
   sassOptions: {
     includePaths: ['./src'],
     prependData: `@import "~@styles/variables.scss";`
+  },
+  webpack: config => {
+    config.module.rules.push({
+      test: /\.svg$/i,
+      loader: '@svgr/webpack',
+      options: {
+        svgoConfig: {
+          plugins: [
+            {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  removeViewBox: false // important
+                }
+              }
+            }
+          ]
+        }
+      }
+    })
+    return config
   }
   //路由重定向
   // async redirects() {
@@ -47,4 +68,4 @@ const nextConfig = {
   // },
 }
 
-module.exports =  nextConfig
+module.exports = nextConfig

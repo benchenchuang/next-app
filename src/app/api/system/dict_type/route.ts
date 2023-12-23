@@ -19,16 +19,19 @@ import { getParamsData, requestData, responseData } from "@/app/api/base.interfa
 export const GET = async (req: NextRequest) => {
     try {
         const { searchParams } = new URL(req.url);
-        let page = getParamsData(searchParams, 'page');
-        let size = getParamsData(searchParams, 'size');
+        let page = Number(getParamsData(searchParams, 'page'));
+        let size = Number(getParamsData(searchParams, 'size'));
         let name = getParamsData(searchParams, 'name');
-        let id = getParamsData(searchParams, 'id');
-        let query = requestData(page, size, { name ,id})
+        let where:any = {};
+        if(name){
+            where.name = name;
+        }
+        let query = requestData(page,size, where)
         let data = await prisma.dictType.findMany({
             ...query
         });
         let total = await prisma.dictType.count({
-            where: { name }
+            where
         })
         return NextResponse.json(responseData(200, '操作成功', { list: data, page, size, total: total }))
     } catch (err: any) {
@@ -43,14 +46,37 @@ export const GET = async (req: NextRequest) => {
 export const POST = async (req: NextRequest) => {
     try {
         let data = await req.json();
-        let { name = ''} = data;
+        let { name = '',code} = data;
         if (!name) {
             return NextResponse.json(responseData(0, '名称不能为空'))
         }
-        await prisma.dictType.create(data);
+        if(!code){
+            return NextResponse.json(responseData(0, '编码不能为空'))
+        }
+        let result = await prisma.dictType.findMany({
+            where:{
+                name
+            }
+        });
+        if(result?.length){
+            return NextResponse.json(responseData(0, '名称重复'))
+        }
+        let codeResult = await prisma.dictType.findMany({
+            where:{
+                code
+            }
+        });
+        if(codeResult?.length){
+            return NextResponse.json(responseData(0, '编码重复'))
+        }
+        await prisma.dictType.create({data});
         return NextResponse.json(responseData(200, '操作成功'))
     } catch (err: any) {
-        return NextResponse.json(responseData(0, '操作失败'))
+        let message ='';
+        if(err.meta.target){
+            message = '数据重复'
+        }
+        return NextResponse.json(responseData(0, message))
     }
 }
 /**
@@ -59,16 +85,19 @@ export const POST = async (req: NextRequest) => {
  */
 export const DELETE = async(req:NextRequest)=>{
     try{
-        let id = req.nextUrl.searchParams.get('id');
-        if(!id){
+        const { searchParams } = new URL(req.url);
+        let ids = searchParams.getAll('ids[]');
+        if (!ids || ids.length == 0) {
             return NextResponse.json(responseData(0, '缺少删除信息Id'))
         }
-        const res = await prisma.dictType.delete({
-            where:{
-                id:Number(id)
+        await prisma.dictType.deleteMany({
+            where: {
+                id: {
+                    in: ids
+                }
             }
         });
-        return NextResponse.json(responseData(200, '操作成功',res))
+        return NextResponse.json(responseData(200, '操作成功'))
     }catch(error:any){
         return NextResponse.json(responseData(0, '操作失败'))
     }
@@ -81,12 +110,41 @@ export const DELETE = async(req:NextRequest)=>{
 export const PUT = async(req:NextRequest)=>{
     try{
         let {id,...data} = await req.json();
+        let {name,code} = data;
         if(!id){
             return NextResponse.json(responseData(0, '缺少更新信息Id'))
         }
+        if(!name){
+            return NextResponse.json(responseData(0, '缺少更新信息名称'))
+        }
+        if(!code){
+            return NextResponse.json(responseData(0, '缺少更新信息编码'))
+        }
+        let result = await prisma.dictType.findMany({
+            where:{
+                name,
+                NOT:{
+                    id
+                }
+            }
+        });
+        if(result?.length){
+            return NextResponse.json(responseData(0, '名称重复'))
+        }
+        let codeResult = await prisma.dictType.findMany({
+            where:{
+                code,
+                NOT:{
+                    id
+                }
+            }
+        });
+        if(codeResult?.length){
+            return NextResponse.json(responseData(0, '编码重复'))
+        }
         const res = await prisma.dictType.update({
             where:{
-                id,
+                id
             },
             data
         });

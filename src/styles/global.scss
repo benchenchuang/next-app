@@ -1,8 +1,11 @@
-.flex-row{
-    display: flex;
-    flex-direction: row;
+.flex-row {
+  display: flex;
+  flex-direction: row;
 }
-.flex-column{
-    display: flex;
-    flex-direction: column;
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+.ant-table .ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td{
+    background:rgba($color: $theme, $alpha: .2)
 }

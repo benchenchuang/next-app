@@ -9,11 +9,7 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-enum Role {
-    USER
-    ADMIN
-}
-
+//用户
 model User {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     username    String   @unique
@@ -22,20 +18,48 @@ model User {
     email       String?
     post        String?  @default("一般工作人员")
     password    String?
-    role        Role     @default(USER)
     avatar      String?
-    depart      Depart?  @relation(fields: [departId], references: [id])
-    departId    Int?
     createTime  DateTime @default(now())
     updatedTime DateTime @default(now())
+    role        Role     @relation(fields: [roleId], references: [id])
+    depart      Depart   @relation(fields: [departId], references: [id])
+    roleId      String   @db.ObjectId
+    departId    String   @db.ObjectId
 
     @@map("users")
 }
 
+//角色
+model Role {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    name        String   @unique
+    code        String   @unique
+    status      Int      @default(1)
+    createTime  DateTime @default(now())
+    updatedTime DateTime @default(now())
+    User        User[]
+
+    @@map("role")
+}
+
+//角色与菜单关联表单
+model Permission {
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
+    roleId   String
+    menu     Menu   @relation(fields: [menuId], references: [id])
+    parentId String
+    orderNum Int
+    menuId   String @db.ObjectId
+
+    @@map("permission")
+}
+
+//部门
 model Depart {
-    id          Int      @id @map("_id")
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
     name        String
-    parentId    Int      @default(-1)
+    code        String   @unique
+    parentId    String   @default("-1")
     createTime  DateTime @default(now())
     updatedTime DateTime @default(now())
     User        User[]
@@ -43,9 +67,11 @@ model Depart {
     @@map("depart")
 }
 
+//字典类型
 model DictType {
-    id          Int        @id @map("_id")
+    id          String     @id @default(auto()) @map("_id") @db.ObjectId
     name        String
+    code        String     @unique
     createTime  DateTime   @default(now())
     updatedTime DateTime   @default(now())
     DictData    DictData[]
@@ -53,15 +79,96 @@ model DictType {
     @@map("dict_type")
 }
 
+//字典数据
 model DictData {
-    id          Int      @id @map("_id")
-    parent      DictType @relation(fields: [parentId], references: [id])
-    parentId    Int
+    id          String    @id @default(auto()) @map("_id") @db.ObjectId
     name        String
+    code        String
     value       String
     color       String?
+    createTime  DateTime  @default(now())
+    updatedTime DateTime  @default(now())
+    DictType    DictType? @relation(fields: [dictType], references: [code])
+    dictType    String
+
+    @@map("dict_data")
+}
+
+//菜单
+model Menu {
+    id          String       @id @default(auto()) @map("_id") @db.ObjectId
+    parentId    String       @default("-1")
+    name        String       @unique
+    icon        String?
+    orderNum    Int          @default(1)
+    path        String?
+    type        String
+    extend      Int          @default(0)
+    show        Int          @default(1)
+    createTime  DateTime     @default(now())
+    updatedTime DateTime     @default(now())
+    Permission  Permission[]
+
+    @@map("menu")
+}
+
+//订单
+model Order {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    customer    Customer @relation(fields: [customerId], references: [id])
+    customerId  String   @db.ObjectId
+    product     Goods    @relation(fields: [productId], references: [id])
+    productId   String   @db.ObjectId
+    address     String
+    phone       String
+    quanlity    Int
     createTime  DateTime @default(now())
     updatedTime DateTime @default(now())
 
-    @@map("dict_data")
+    @@map("order")
+}
+
+//用户
+model Customer {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    name        String
+    phone       String
+    email       String?
+    password    String
+    status      Int      @default(1)
+    level       Int      @default(1)
+    createTime  DateTime @default(now())
+    updatedTime DateTime @default(now())
+    Order       Order[]
+
+    @@map("customer")
+}
+
+//商品
+model Goods {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    image       String
+    title       String
+    price       Int      @default(0)
+    rank        Int      @default(0)
+    quantity    Int      @default(1)
+    content     String
+    createTime  DateTime @default(now())
+    updatedTime DateTime @default(now())
+    Order       Order[]
+
+    @@map("goods")
+}
+
+//地址
+model Address {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    customerId  String
+    phone       String
+    region      String
+    detail      String
+    createTime  DateTime @default(now())
+    updatedTime DateTime @default(now())
+
+    @@map("address")
 }

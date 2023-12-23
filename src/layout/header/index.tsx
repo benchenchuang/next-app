@@ -60,10 +60,10 @@ const LayoutHeader = () => {
                 <div className={styles.control_item} onClick={logOut}>
                     <PoweroffOutlined />
                 </div>
-                <div className={`flex-row ${styles.control_item}`}>
+                {/* <div className={`flex-row ${styles.control_item}`}>
                     <Image className={styles.avatar} alt='amin' width={40} height={40} src='/avatar.jpg'/>
                     <CaretDownOutlined className={styles.down} />
-                </div>
+                </div> */}
             </div>
         </div>
     )

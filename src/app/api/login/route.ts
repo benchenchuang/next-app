@@ -10,9 +10,7 @@ import { prisma } from "@/libs/db";
 import { NextRequest, NextResponse } from "next/server";
 import { responseData } from "@/app/api/base.interface";
 import { decryption } from "../encrypt";
-import * as jose from 'jose';
-
-const JWT_SECRET = 'next-app';
+import { signJWT } from "../jwt";
 /**
  * 登录
  * @param req 
@@ -27,37 +25,31 @@ export const POST = async (req: NextRequest) => {
         if (!userInfo) {
             return NextResponse.json(responseData(0, `无${username}用户`))
         }
-        let { role } = userInfo;
         let isPermission = decryption(password, userInfo.password as string)
-        if (role !== 'ADMIN') {
-            return NextResponse.json(responseData(0, `${username}用户无登录权限`))
+        let { roleId } = userInfo;
+        if (roleId == '') {
+            return NextResponse.json(responseData(0, `用户无登录权限`))
         }
         if (!isPermission) {
             return NextResponse.json(responseData(0, `登录密码错误`))
         }
-        let { id, name, phone } = userInfo
         //根据用户信息生成token返回
-        let jwtToken = await new jose.SignJWT({
-            id,
-            username,
-            name,
-            phone
-        })
-            .setProtectedHeader({ alg: 'HS256' })
-            .setIssuedAt()
-            .setExpirationTime('2h')
-            .sign(new TextEncoder()
-                .encode(JWT_SECRET))
+        let jwtToken = await signJWT(userInfo as any);
+        let permission = await getUserPermission(userInfo.roleId, '-1');
+        console.log(permission)
+
         return NextResponse.json(responseData(200, '登录成功', {
             token: jwtToken,
             ...userInfo,
-            password: ''
-        }),{
-            headers:{
+            password: '',
+            permission
+        }), {
+            headers: {
                 'Set-Cookie': `Admin-Token=${jwtToken};path=/;`
             }
         })
     } catch (err: any) {
+        console.log(err)
         return NextResponse.json(responseData(0, `登录失败`))
     }
 }
@@ -65,10 +57,39 @@ export const POST = async (req: NextRequest) => {
 /**
  * 退出
  */
-export const PUT = async (req:NextRequest)=>{
-    return NextResponse.json(responseData(200, `操作成功`),{
-        headers:{
+export const PUT = async (req: NextRequest) => {
+    return NextResponse.json(responseData(200, `操作成功`), {
+        headers: {
             'Set-Cookie': `Admin-Token=;path=/;`
         }
     })
+}
+
+/**
+ * 获取登录用户权限
+ * @param roleId  角色Id
+ * @param parentId 
+ * @returns 
+ */
+export const getUserPermission = async (roleId: string, parentId: string) => {
+    let where: any = { parentId, roleId };
+    const node: any = await prisma.permission.findMany({
+        where,
+        orderBy: {
+            'orderNum': 'asc'
+        },
+        include: {
+            menu: true
+        }
+    });
+    if (!node || node.length == 0) {
+        return null;
+    }
+    if (node.length) {
+        for (const child of node) {
+            const childNodes = await getUserPermission(roleId, child.menuId);
+            child.children = childNodes;
+        }
+    }
+    return node;
 }

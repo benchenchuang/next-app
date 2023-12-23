@@ -5,7 +5,7 @@ export interface IResponse {
 }
 
 export interface IQueryList {
-    [key: string]: string | number | undefined | null;
+    [key: string]: string | number | undefined | null | Array<string | number>;
 }
 
 export interface IDictionary {

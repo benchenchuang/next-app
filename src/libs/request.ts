@@ -8,15 +8,17 @@
  */
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse } from "axios";
 import { message } from 'antd'
+import { getCache } from "./session";
 const service: AxiosInstance = axios.create({
     baseURL: '',
     timeout: 60 * 1000
 });
 // 请求处理
 service.interceptors.request.use((config: any) => {
+    let token = getCache('token') || '';
     config.headers = {
         "Content-Type": "application/json",
-        "token":''
+        "token":token
     }
     return config;
 }, (error: any) => {

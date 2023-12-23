@@ -31,7 +31,7 @@ const Login = () => {
             message.success('登录成功')
             setCache('token',token)
             setCache('userInfo',userInfo)
-            router.push('/admin/dashboard')
+            router.push('/dashboard')
         }catch(err:any){
             message.error(err.message)
         }finally{

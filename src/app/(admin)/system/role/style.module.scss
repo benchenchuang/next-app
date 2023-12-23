@@ -1,0 +1,33 @@
+.wrapper {
+  width: 100%;
+}
+.sideBox {
+  width: 320px;
+}
+.mainBox {
+  flex: 1;
+}
+.role_item{
+    display: flex;
+    flex-direction: row;
+    padding: 0 10px;
+    height: 40px;
+    align-items: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    border-radius: 8px;
+    &:hover{
+        color: #fff;
+        background-color: rgba($color: $theme, $alpha: .2)
+    }
+}
+.active{
+    color: #fff;
+    background-color: rgba($color: $theme, $alpha: .5);
+}
+.role_name{
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

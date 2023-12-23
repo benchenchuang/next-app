@@ -1,0 +1,22 @@
+:where(.ant-tree) .ant-tree-treenode{
+    flex: 1;
+    width: 100%;
+}
+:where(.ant-tree) .ant-tree-node-content-wrapper{
+    display: flex;
+    flex: 1;
+    .ant-tree-title{
+        display: flex;
+        flex: 1;
+    }
+}
+.dept_edit{
+    margin: 0 4px;
+    color: $theme;
+    font-size: 16px;
+}
+.dept_del{
+    margin: 0 4px;
+    color: red;
+    font-size: 16px;
+}
