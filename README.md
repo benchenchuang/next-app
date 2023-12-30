@@ -1,8 +1,8 @@
 <!--
  * @Author: benchenchuang benchenchuang
  * @Date: 2023-12-01 19:15:44
- * @LastEditors: benchenchuang benchenchuang
- * @LastEditTime: 2023-12-01 19:24:44
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-12-30 16:15:15
  * @FilePath: /next-app/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -69,6 +69,15 @@ pm2 start npm --name next-app -- start #启动
 - 创建model之后 完成映射          npx prisma db push
 - libs/db                       连接数据库
 - app/api中使用                  
+```
+- 向数据库插入种子数据
+```
+    npm install -D typescript ts-node @types/node
+    package.json-
+        "prisma": {
+            "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+        },
+    npx prisma db seed
 ```
 ## 实际开发记录
 

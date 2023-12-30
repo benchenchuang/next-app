@@ -1,3 +1,10 @@
+/*
+ * @Author: Jimmy
+ * @LastModifiedBy: Jimmy
+ * @Date: 2023-11-27 08:54:30
+ * @LastEditTime: 2023-12-30 16:20:50
+ * @FilePath: /next-app/src/libs/utils.ts
+ */
 /**
  * 隐藏身份证中间8位数
  * @param {data} 传入数据
@@ -8,9 +15,9 @@ export const idCard = (data: string) => {
 };
 
 // 定义一个深拷贝函数
-export const deepClone = (target: any) =>{
+export const deepClone = (target: any) => {
     // 定义一个变量
-    let result:any;
+    let result: any;
     // 如果当前需要深拷贝的是一个对象的话
     if (typeof target === 'object') {
         // 如果是一个数组的话
@@ -39,4 +46,16 @@ export const deepClone = (target: any) =>{
     }
     // 返回最终结果
     return result;
+}
+
+export const formatDate = (timestamp: string) => {
+    let date = new Date(timestamp);
+    let year = date.getFullYear();
+    let month = ("0" + (date.getMonth() + 1)).slice(-2);
+    let day = ("0" + date.getDate()).slice(-2);
+    let hour = ("0" + date.getHours()).slice(-2);
+    let minute = ("0" + date.getMinutes()).slice(-2);
+    let second = ("0" + date.getSeconds()).slice(-2);
+
+    return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
 }

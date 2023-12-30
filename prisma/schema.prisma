@@ -121,7 +121,11 @@ model Order {
     productId   String   @db.ObjectId
     address     String
     phone       String
-    quanlity    Int
+    price       Float
+    quantity    Int
+    total       Float
+    status      Int      @default(0)
+    comment     String?
     createTime  DateTime @default(now())
     updatedTime DateTime @default(now())
 
